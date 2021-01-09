@@ -33,7 +33,32 @@ app.post('/students',async(req,res)=>{
   }catch(err){
     res.status(400).send(err);
   }
-  
+})
+
+//get all students data
+app.get('/students',async(req,res)=>{
+  try{
+    const studentsData = await Student.find();
+    res.send(studentsData);
+  }catch(err){
+    console.log(err);
+  }
+})
+
+//get individual student data
+app.get('/students/:id',async(req,res)=>{
+  try{
+    const _id = req.params.id;
+    const studentData = await Student.findById(_id);
+    console.log(studentData);
+    if(!studentData){
+      return res.status(404).send('Data not found');
+    }else{
+      res.send(studentData);
+    }
+  }catch(err){
+    console.log(err);
+  }
 })
 
 app.listen(port,(err)=>{
