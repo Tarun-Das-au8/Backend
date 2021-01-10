@@ -61,6 +61,31 @@ app.get('/students/:id',async(req,res)=>{
   }
 })
 
+//update the students by id
+app.patch('/students/:id',async(req,res)=>{
+  try{
+    const _id = req.params.id;
+    const updateStudents = await Student.findByIdAndUpdate(_id,req.body,{new:true});
+    res.send(updateStudents);
+  }catch(err){
+    res.status(400).send(err);
+  }
+})
+
+//delete the student by id
+app.delete('/students/:id',async(req,res)=>{
+  try{
+    const id = req.params.id;
+    const deleteStudent = await Student.findByIdAndDelete(id);
+    if(!id){
+      return res.status(400).send('Invalid input');
+    }
+    res.send(deleteStudent);
+  }catch(err){
+    res.status(400).send(err);
+  }
+})
+
 app.listen(port,(err)=>{
   if(err) throw err;
   console.log(`Server running on port ${port}`);
